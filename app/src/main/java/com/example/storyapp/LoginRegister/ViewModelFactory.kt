@@ -1,6 +1,5 @@
-package com.example.storyapp
+package com.example.storyapp.LoginRegister
 
-import android.app.Application
 import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

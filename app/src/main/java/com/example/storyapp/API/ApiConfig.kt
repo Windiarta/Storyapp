@@ -1,5 +1,7 @@
-package com.example.storyapp
+package com.example.storyapp.API
 
+
+import androidx.viewbinding.BuildConfig
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

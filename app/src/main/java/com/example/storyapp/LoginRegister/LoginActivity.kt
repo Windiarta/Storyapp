@@ -1,4 +1,4 @@
-package com.example.storyapp
+package com.example.storyapp.LoginRegister
 
 import android.content.Context
 import android.content.Intent
@@ -9,6 +9,10 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.example.storyapp.CustomView.EmailEditText
+import com.example.storyapp.CustomView.PasswordEditText
+import com.example.storyapp.Main.MainActivity
+import com.example.storyapp.R
 import com.example.storyapp.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
@@ -65,7 +69,6 @@ class LoginActivity : AppCompatActivity() {
             else{
                 Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
             }
-
         }
 
         edLoginToRegister.setOnClickListener{

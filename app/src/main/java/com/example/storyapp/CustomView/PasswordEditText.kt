@@ -1,4 +1,4 @@
-package com.example.storyapp
+package com.example.storyapp.CustomView
 
 import android.content.Context
 import android.graphics.Canvas
@@ -7,7 +7,7 @@ import android.text.TextWatcher
 import android.util.AttributeSet
 import java.util.regex.Pattern
 
-class EmailEditText : CustomEditText {
+class PasswordEditText : CustomEditText {
     constructor(context: Context) : super(context){
         init()
     }
@@ -18,7 +18,7 @@ class EmailEditText : CustomEditText {
         init()
     }
 
-    private val pattern: Pattern = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,10}\$")
+    private val pattern: Pattern = Pattern.compile(".{8,}")
 
     private fun isValid (s: CharSequence) : Boolean{
         return pattern.matcher(s).matches()
@@ -26,13 +26,12 @@ class EmailEditText : CustomEditText {
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        hint = "Input Your E-Mail"
+        hint = "Input Your Password"
     }
 
     override fun init(){
         super.init()
-        addTextChangedListener(object: TextWatcher{
-
+        addTextChangedListener(object: TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 //do nothing
             }
@@ -42,7 +41,7 @@ class EmailEditText : CustomEditText {
 
             override fun afterTextChanged(s: Editable?) {
                 if(s?.let { isValid(it) } == false && s.isNotEmpty()){
-                    error = "Not Email Input"
+                    error = "Password needs minimum of 8 characters"
                 }
             }
         })

@@ -11,19 +11,19 @@
         android:gravity="center"
         android:text="@string/register" />
 
-    <com.example.storyapp.CustomEditText
+    <com.example.storyapp.CustomView.CustomEditText
         android:id="@+id/ed_register_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
 
-    <com.example.storyapp.EmailEditText
+    <com.example.storyapp.CustomView.EmailEditText
         android:id="@+id/ed_register_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textEmailAddress"/>
 
-    <com.example.storyapp.PasswordEditText
+    <com.example.storyapp.CustomView.PasswordEditText
         android:id="@+id/ed_register_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

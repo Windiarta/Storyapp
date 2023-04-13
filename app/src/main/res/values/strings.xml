@@ -7,6 +7,12 @@
     <string name="password">Password</string>
     <string name="main">Main</string>
     <string name="logout">Logout</string>
+    <string name="description">Description</string>
+    <string name="upload">Upload</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+
+    <string name="photo_description">Story</string>
 
     <string name="login_error_toast">Invalid Input</string>
     <string name="register_success">Account Successfully Registered</string>

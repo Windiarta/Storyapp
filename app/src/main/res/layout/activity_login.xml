@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".LoginActivity">
+    tools:context=".LoginRegister.LoginActivity">
 
     <TextView
         android:layout_width="match_parent"
@@ -12,13 +12,13 @@
         android:gravity="center"
         android:text="@string/login" />
 
-    <com.example.storyapp.EmailEditText
+    <com.example.storyapp.CustomView.EmailEditText
         android:id="@+id/ed_login_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textEmailAddress"/>
 
-    <com.example.storyapp.PasswordEditText
+    <com.example.storyapp.CustomView.PasswordEditText
         android:id="@+id/ed_login_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

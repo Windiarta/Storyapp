@@ -1,4 +1,4 @@
-package com.example.storyapp
+package com.example.storyapp.API
 
 data class RegisterResponse(
 	val error: Boolean,

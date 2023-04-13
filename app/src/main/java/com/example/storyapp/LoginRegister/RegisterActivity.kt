@@ -1,4 +1,4 @@
-package com.example.storyapp
+package com.example.storyapp.LoginRegister
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,6 +8,10 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.example.storyapp.CustomView.CustomEditText
+import com.example.storyapp.CustomView.EmailEditText
+import com.example.storyapp.CustomView.PasswordEditText
+import com.example.storyapp.R
 import com.example.storyapp.databinding.ActivityRegisterBinding
 
 class RegisterActivity : AppCompatActivity() {

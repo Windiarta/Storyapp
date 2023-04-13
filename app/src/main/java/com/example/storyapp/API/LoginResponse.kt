@@ -1,9 +1,9 @@
-package com.example.storyapp
+package com.example.storyapp.API
 
 data class LoginResponse(
-	val loginResult: LoginResult,
-	val error: Boolean,
-	val message: String
+    val loginResult: LoginResult,
+    val error: Boolean,
+    val message: String
 )
 
 data class LoginResult(
