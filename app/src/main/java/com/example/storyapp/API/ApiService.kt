@@ -1,6 +1,5 @@
 package com.example.storyapp.API
 
-import com.example.storyapp.Model.DetailResponse
 import com.example.storyapp.Model.LoginResponse
 import com.example.storyapp.Model.RegisterResponse
 import com.example.storyapp.Model.StoryResponse
@@ -15,10 +14,10 @@ data class RegisterRequest(val name: String, val email: String, val password: St
 
 interface ApiService {
     @POST("/v1/login")
-    fun login (@Body request: LoginRequest): Call<LoginResponse>
+    fun login(@Body request: LoginRequest): Call<LoginResponse>
 
     @POST("/v1/register")
-    fun register (@Body request: RegisterRequest): Call<RegisterResponse>
+    fun register(@Body request: RegisterRequest): Call<RegisterResponse>
 
     @Multipart
     @POST("/v1/stories")
@@ -35,12 +34,4 @@ interface ApiService {
         @Query("size") size: Int,
         @Query("location") location: Int
     ): Call<StoryResponse>
-
-    @GET("/v1/stories/{id}")
-    fun detail(
-        @Header("Authorization") token: String,
-        @Path("id") id: String
-    ): Call<DetailResponse>
-
-
 }

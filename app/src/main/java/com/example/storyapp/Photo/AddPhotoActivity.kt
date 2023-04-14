@@ -9,19 +9,15 @@ import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import com.airbnb.lottie.LottieAnimationView
 import com.example.storyapp.API.ApiConfig
@@ -81,9 +77,9 @@ class AddPhotoActivity : AppCompatActivity() {
             binding.addPhotoPreview.setImageBitmap(BitmapFactory.decodeFile(viewModel.getFile()?.path))
         }
 
-        binding.addCamera.setOnClickListener{ startCameraX() }
-        binding.addGallery.setOnClickListener{ startGallery() }
-        binding.addUpload.setOnClickListener{ uploadImage() }
+        binding.addCamera.setOnClickListener { startCameraX() }
+        binding.addGallery.setOnClickListener { startGallery() }
+        binding.addUpload.setOnClickListener { uploadImage() }
 
     }
 
@@ -101,11 +97,12 @@ class AddPhotoActivity : AppCompatActivity() {
         }
     }
 
-    private fun showText(){
+    private fun showText() {
         Toast.makeText(
             this,
             "Tidak mendapatkan permission.",
-            Toast.LENGTH_SHORT).show()
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
@@ -165,7 +162,7 @@ class AddPhotoActivity : AppCompatActivity() {
             binding.addLoading.playAnimation()
             val file = reduceFileImage(viewModel.getFile() as File)
             var text = addDescription.text.toString()
-            if (text.isEmpty()){
+            if (text.isEmpty()) {
                 text = " "
             }
             val description = text.toRequestBody("text/plain".toMediaType())
@@ -177,7 +174,8 @@ class AddPhotoActivity : AppCompatActivity() {
             )
 
 
-            val service = ApiConfig.getApiService().upload("Bearer $token", description, imageMultipart)
+            val service =
+                ApiConfig.getApiService().upload("Bearer $token", description, imageMultipart)
             service.enqueue(object : Callback<FileUploadResponse> {
                 override fun onResponse(
                     call: Call<FileUploadResponse>,
@@ -188,21 +186,38 @@ class AddPhotoActivity : AppCompatActivity() {
                     if (response.isSuccessful) {
                         val responseBody = response.body()
                         if (responseBody != null && !responseBody.error) {
-                            Toast.makeText(this@AddPhotoActivity, responseBody.message, Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                this@AddPhotoActivity,
+                                responseBody.message,
+                                Toast.LENGTH_SHORT
+                            ).show()
                             startActivity(Intent(this@AddPhotoActivity, MainActivity::class.java))
                         }
                     } else {
-                        Toast.makeText(this@AddPhotoActivity, response.message(), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            this@AddPhotoActivity,
+                            response.message(),
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
+
                 override fun onFailure(call: Call<FileUploadResponse>, t: Throwable) {
                     addLoading.visibility = View.INVISIBLE
                     addLoading.cancelAnimation()
-                    Toast.makeText(this@AddPhotoActivity, "Gagal instance Retrofit", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@AddPhotoActivity,
+                        "Gagal instance Retrofit",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             })
         } else {
-            Toast.makeText(this@AddPhotoActivity, "Silakan masukkan berkas gambar terlebih dahulu.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this@AddPhotoActivity,
+                "Silakan masukkan berkas gambar terlebih dahulu.",
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 }
