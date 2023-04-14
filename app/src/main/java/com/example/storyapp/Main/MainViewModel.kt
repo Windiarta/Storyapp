@@ -6,6 +6,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.storyapp.API.*
+import com.example.storyapp.Model.ListStoryItem
+import com.example.storyapp.Model.StoryResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -23,8 +25,8 @@ class MainViewModel (private val preferences: SharedPreferences): ViewModel() {
     val listStory: LiveData<List<ListStoryItem>> = _listStory
     private val _message = MutableLiveData<String>()
     val message: LiveData<String> = _message
-    private val _detailStory = MutableLiveData<Story>()
-    val detailStory: LiveData<Story> = _detailStory
+//    private val _detailStory = MutableLiveData<Story>()
+//    val detailStory: LiveData<Story> = _detailStory
 
     fun getAllStory(){
         _isLoading.value = true
@@ -56,6 +58,7 @@ class MainViewModel (private val preferences: SharedPreferences): ViewModel() {
         preferences.edit().clear().apply()
     }
 
+    /*
     fun getDetail(id: String){
         _isLoading.value = true
 
@@ -83,5 +86,5 @@ class MainViewModel (private val preferences: SharedPreferences): ViewModel() {
             }
         })
     }
-
+    */
 }

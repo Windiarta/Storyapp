@@ -1,4 +1,4 @@
-package com.example.storyapp
+package com.example.storyapp.Photo
 
 import android.content.Intent
 import android.os.Build

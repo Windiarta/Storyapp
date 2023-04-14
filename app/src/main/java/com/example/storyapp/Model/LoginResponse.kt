@@ -1,4 +1,4 @@
-package com.example.storyapp.API
+package com.example.storyapp.Model
 
 data class LoginResponse(
     val loginResult: LoginResult,

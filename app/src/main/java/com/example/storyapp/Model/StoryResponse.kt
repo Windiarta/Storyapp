@@ -1,4 +1,7 @@
-package com.example.storyapp.API
+package com.example.storyapp.Model
+
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
 data class StoryResponse(
     val listStory: List<ListStoryItem>,
@@ -6,13 +9,14 @@ data class StoryResponse(
     val message: String
 )
 
+@Parcelize
 data class ListStoryItem(
 	val photoUrl: String,
 	val createdAt: String,
 	val name: String,
 	val description: String,
-	val lon: Any,
+	val lon: Int,
 	val id: String,
-	val lat: Any
-)
+	val lat: Int
+) : Parcelable
 

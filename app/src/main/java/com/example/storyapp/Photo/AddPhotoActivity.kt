@@ -1,4 +1,4 @@
-package com.example.storyapp
+package com.example.storyapp.Photo
 
 import android.Manifest
 import android.content.Context
@@ -11,6 +11,7 @@ import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
@@ -19,6 +20,10 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModelProvider
+import com.airbnb.lottie.LottieAnimationView
 import com.example.storyapp.API.ApiConfig
 import com.example.storyapp.Main.MainActivity
 import com.example.storyapp.databinding.ActivityAddPhotoBinding
@@ -38,6 +43,7 @@ class AddPhotoActivity : AppCompatActivity() {
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
         private const val REQUEST_CODE_PERMISSIONS = 10
         private const val TOKEN = "token"
+        private const val TAG = "AddPhotoActivity"
     }
 
     private lateinit var preferences: SharedPreferences
@@ -45,10 +51,10 @@ class AddPhotoActivity : AppCompatActivity() {
 
     private lateinit var addDescription: EditText
     private lateinit var addPhotoPreview: ImageView
-    private lateinit var addLoading: ProgressBar
+    private lateinit var addLoading: LottieAnimationView
 
     private lateinit var binding: ActivityAddPhotoBinding
-    private var getFile: File? = null
+    private lateinit var viewModel: AddPhotoViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,6 +74,13 @@ class AddPhotoActivity : AppCompatActivity() {
 
         addPhotoPreview = binding.addPhotoPreview
         addDescription = binding.addDescription
+
+        viewModel = ViewModelProvider(this).get(AddPhotoViewModel::class.java)
+
+        if (viewModel.getFile() != null) {
+            binding.addPhotoPreview.setImageBitmap(BitmapFactory.decodeFile(viewModel.getFile()?.path))
+        }
+
         binding.addCamera.setOnClickListener{ startCameraX() }
         binding.addGallery.setOnClickListener{ startGallery() }
         binding.addUpload.setOnClickListener{ uploadImage() }
@@ -119,7 +132,7 @@ class AddPhotoActivity : AppCompatActivity() {
             val selectedImg = result.data?.data as Uri
             selectedImg.let { uri ->
                 val myFile = uriToFile(uri, this@AddPhotoActivity)
-                getFile = myFile
+                viewModel.setFile(myFile)
                 binding.addPhotoPreview.setImageURI(uri)
             }
         }
@@ -140,15 +153,17 @@ class AddPhotoActivity : AppCompatActivity() {
 
             myFile?.let { file ->
                 rotateFile(file, isBackCamera)
-                getFile = file
+                viewModel.setFile(file)
                 binding.addPhotoPreview.setImageBitmap(BitmapFactory.decodeFile(file.path))
             }
         }
     }
 
     private fun uploadImage() {
-        if (getFile != null) {
-            val file = reduceFileImage(getFile as File)
+        if (viewModel.getFile() != null) {
+            binding.addLoading.visibility = View.VISIBLE
+            binding.addLoading.playAnimation()
+            val file = reduceFileImage(viewModel.getFile() as File)
             var text = addDescription.text.toString()
             if (text.isEmpty()){
                 text = " "
@@ -161,7 +176,6 @@ class AddPhotoActivity : AppCompatActivity() {
                 requestImageFile
             )
 
-            addLoading.visibility = View.VISIBLE
 
             val service = ApiConfig.getApiService().upload("Bearer $token", description, imageMultipart)
             service.enqueue(object : Callback<FileUploadResponse> {
@@ -170,6 +184,7 @@ class AddPhotoActivity : AppCompatActivity() {
                     response: Response<FileUploadResponse>
                 ) {
                     addLoading.visibility = View.INVISIBLE
+                    addLoading.cancelAnimation()
                     if (response.isSuccessful) {
                         val responseBody = response.body()
                         if (responseBody != null && !responseBody.error) {
@@ -182,6 +197,7 @@ class AddPhotoActivity : AppCompatActivity() {
                 }
                 override fun onFailure(call: Call<FileUploadResponse>, t: Throwable) {
                     addLoading.visibility = View.INVISIBLE
+                    addLoading.cancelAnimation()
                     Toast.makeText(this@AddPhotoActivity, "Gagal instance Retrofit", Toast.LENGTH_SHORT).show()
                 }
             })

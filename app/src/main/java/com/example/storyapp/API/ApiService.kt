@@ -1,6 +1,10 @@
 package com.example.storyapp.API
 
-import com.example.storyapp.FileUploadResponse
+import com.example.storyapp.Model.DetailResponse
+import com.example.storyapp.Model.LoginResponse
+import com.example.storyapp.Model.RegisterResponse
+import com.example.storyapp.Model.StoryResponse
+import com.example.storyapp.Photo.FileUploadResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call

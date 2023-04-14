@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddPhotoActivity">
+    tools:context=".Photo.AddPhotoActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -19,7 +19,7 @@
                 android:id="@+id/add_photo_preview"
                 android:layout_width="match_parent"
                 android:layout_height="400dp"
-                android:src="@drawable/ic_launcher_background"
+                android:src="@drawable/cam_preview"
                 android:scaleType="fitCenter"
                 android:layout_margin="20dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -72,17 +72,18 @@
                 app:layout_constraintStart_toStartOf="@+id/add_description"
                 app:layout_constraintTop_toBottomOf="@id/add_description" />
 
-
-            <ProgressBar
+            <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/add_loading"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="invisible"
+                app:lottie_rawRes="@raw/loader"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
-
+                app:layout_constraintTop_toTopOf="parent"
+                app:lottie_autoPlay="false"
+                app:lottie_loop="true" />
             
         </androidx.constraintlayout.widget.ConstraintLayout>
         

@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.storyapp.API.ApiConfig
 import com.example.storyapp.API.RegisterRequest
-import com.example.storyapp.API.RegisterResponse
+import com.example.storyapp.Model.RegisterResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

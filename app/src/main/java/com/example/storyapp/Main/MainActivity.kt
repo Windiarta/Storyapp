@@ -10,8 +10,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.example.storyapp.API.ListStoryItem
-import com.example.storyapp.AddPhotoActivity
+import com.airbnb.lottie.LottieAnimationView
+import com.example.storyapp.Model.ListStoryItem
+import com.example.storyapp.Photo.AddPhotoActivity
 import com.example.storyapp.LoginRegister.LoginActivity
 import com.example.storyapp.R
 import com.example.storyapp.databinding.ActivityMainBinding
@@ -25,7 +26,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var preferences: SharedPreferences
     private lateinit var mainViewModel: MainViewModel
 
-    private lateinit var mainLoading : ProgressBar
+    private lateinit var mainLoading : LottieAnimationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,8 +55,10 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.isLoading.observe(this){
             if(it){
                 mainLoading.visibility = View.VISIBLE
+                mainLoading.playAnimation()
             } else {
                 mainLoading.visibility = View.INVISIBLE
+                mainLoading.cancelAnimation()
             }
         }
     }
@@ -95,17 +98,12 @@ class MainActivity : AppCompatActivity() {
         binding.rvStory.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL) // 2 columns and vertical orientation
         val adapter = StoryAdapter(items)
         binding.rvStory.adapter = adapter
-        adapter.setOnItemClickCallback(object : StoryAdapter.OnItemClickCallback {
-            override fun onItemClicked(data: ListStoryItem) {
-                showSelectedData(data)
-            }
-        })
     }
 
-    private fun showSelectedData(data : ListStoryItem){
-        val intentToDetail = Intent(this@MainActivity, StoryDetailActivity::class.java)
-        intentToDetail.putExtra("StoryID", data.id)
-        startActivity(intentToDetail)
-    }
+//    private fun showSelectedData(data : ListStoryItem){
+//        val intentToDetail = Intent(this@MainActivity, StoryDetailActivity::class.java)
+//        intentToDetail.putExtra("StoryID", data.id)
+//        startActivity(intentToDetail)
+//    }
 
 }

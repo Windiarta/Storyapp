@@ -8,6 +8,7 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.airbnb.lottie.LottieAnimationView
 import com.example.storyapp.CustomView.CustomEditText
 import com.example.storyapp.CustomView.EmailEditText
 import com.example.storyapp.CustomView.PasswordEditText
@@ -21,7 +22,7 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var edRegisterPassword: PasswordEditText
     private lateinit var edRegisterButton: Button
     private lateinit var edRegisterToLogin: Button
-    private lateinit var edRegisterLoading: ProgressBar
+    private lateinit var edRegisterLoading: LottieAnimationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +38,7 @@ class RegisterActivity : AppCompatActivity() {
         edRegisterPassword = binding.edRegisterPassword
         edRegisterButton = binding.edRegisterButton
         edRegisterToLogin = binding.edRegisterToLogin
-        edRegisterLoading = binding.registerLoading
+        edRegisterLoading = binding.edRegisterLoading
 
         edRegisterToLogin.setOnClickListener {
             startActivity(intent)
@@ -46,8 +47,10 @@ class RegisterActivity : AppCompatActivity() {
         registerViewModel.isLoading.observe(this){
             if(it){
                 edRegisterLoading.visibility = View.VISIBLE
+                edRegisterLoading.playAnimation()
             } else {
                 edRegisterLoading.visibility = View.INVISIBLE
+                edRegisterLoading.cancelAnimation()
             }
         }
 

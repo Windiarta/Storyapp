@@ -1,4 +1,4 @@
-package com.example.storyapp.API
+package com.example.storyapp.Model
 
 data class DetailResponse(
 	val error: Boolean,

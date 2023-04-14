@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.storyapp.API.ApiConfig
 import com.example.storyapp.API.LoginRequest
-import com.example.storyapp.API.LoginResponse
+import com.example.storyapp.Model.LoginResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -28,10 +28,8 @@ class LoginViewModel (private val preferences: SharedPreferences): ViewModel(){
 
     init {
         _acceptance.value = false
-        if(preferences.getString(TOKEN, null) != null){
-            if(preferences.getString(TOKEN, null)!!.isNotEmpty()){
-                _acceptance.value = true
-            }
+        if(preferences.contains(TOKEN)){
+            _acceptance.value = true
         }
     }
 
