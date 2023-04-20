@@ -70,6 +70,7 @@ class AddPhotoActivity : AppCompatActivity() {
 
         addPhotoPreview = binding.addPhotoPreview
         addDescription = binding.addDescription
+        addLoading = binding.addLoading
 
         viewModel = ViewModelProvider(this).get(AddPhotoViewModel::class.java)
 
@@ -157,14 +158,11 @@ class AddPhotoActivity : AppCompatActivity() {
     }
 
     private fun uploadImage() {
-        if (viewModel.getFile() != null) {
+        if (viewModel.getFile() != null && addDescription.text.isNotBlank()) {
             binding.addLoading.visibility = View.VISIBLE
             binding.addLoading.playAnimation()
             val file = reduceFileImage(viewModel.getFile() as File)
             var text = addDescription.text.toString()
-            if (text.isEmpty()) {
-                text = " "
-            }
             val description = text.toRequestBody("text/plain".toMediaType())
             val requestImageFile = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
             val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData(
@@ -213,9 +211,10 @@ class AddPhotoActivity : AppCompatActivity() {
                 }
             })
         } else {
+            if(addDescription.text.isBlank()) addDescription.error = "Deskripsi tidak boleh kosong"
             Toast.makeText(
                 this@AddPhotoActivity,
-                "Silakan masukkan berkas gambar terlebih dahulu.",
+                "Silakan masukkan berkas gambar dan deskripsi terlebih dahulu.",
                 Toast.LENGTH_SHORT
             ).show()
         }
