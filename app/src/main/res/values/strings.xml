@@ -11,12 +11,19 @@
     <string name="upload">Upload</string>
     <string name="camera">Camera</string>
     <string name="gallery">Gallery</string>
+    <string name="maps">Maps</string>
+    <string name="normal_type">Normal</string>
+    <string name="satellite_type">Satellite</string>
+    <string name="terrain_type">Terrain</string>
+    <string name="hybrid_type">Hybrid</string>
+    <string name="retry">Retry</string>
 
     <string name="photo_description">Story</string>
 
     <string name="login_error_toast">Invalid Input</string>
     <string name="register_success">Account Successfully Registered</string>
     <string name="api_failure">Failed Connection To Server. Check Internet Connection!</string>
+    <string name="title_activity_maps">MapsActivity</string>
 
 
 </resources>

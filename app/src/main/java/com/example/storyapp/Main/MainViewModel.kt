@@ -5,20 +5,29 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.example.storyapp.API.ApiConfig
 import com.example.storyapp.Model.ListStoryItem
 import com.example.storyapp.Model.StoryResponse
+import com.example.storyapp.StoryRepository
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MainViewModel(private val preferences: SharedPreferences) : ViewModel() {
+class MainViewModel(private val preferences: SharedPreferences, storyRepository: StoryRepository) : ViewModel() {
     companion object {
         private const val TAG = "MainViewModel"
         private const val TOKEN = "token"
     }
 
     private var token: String = preferences.getString(TOKEN, null).toString()
+    val stories : LiveData<PagingData<ListStoryItem>>
+    init{
+        stories = storyRepository.getStories(token, 0).cachedIn(viewModelScope)
+        Log.e(TAG, stories.value.toString())
+    }
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
@@ -27,9 +36,10 @@ class MainViewModel(private val preferences: SharedPreferences) : ViewModel() {
     private val _message = MutableLiveData<String>()
     val message: LiveData<String> = _message
 
-    fun getAllStory() {
+
+    fun getAllStory(size: Int, location: Int) {
         _isLoading.value = true
-        val client = ApiConfig.getApiService().stories("Bearer $token", 1, 100, 0)
+        val client = ApiConfig.getApiService().stories("Bearer $token", 1, size, location)
         client.enqueue(object : Callback<StoryResponse> {
             override fun onResponse(
                 call: Call<StoryResponse>,

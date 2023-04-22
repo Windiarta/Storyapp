@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -11,10 +12,13 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.airbnb.lottie.LottieAnimationView
 import com.example.storyapp.LoginRegister.LoginActivity
+import com.example.storyapp.MapsActivity
 import com.example.storyapp.Model.ListStoryItem
+import com.example.storyapp.PageViewModel
 import com.example.storyapp.Photo.AddPhotoActivity
 import com.example.storyapp.R
 import com.example.storyapp.databinding.ActivityMainBinding
@@ -37,32 +41,34 @@ class MainActivity : AppCompatActivity() {
 
         preferences = getSharedPreferences("loginPref", Context.MODE_PRIVATE)
         mainViewModel =
-            ViewModelProvider(this, MainViewModelFactory(preferences))[MainViewModel::class.java]
-        mainViewModel.getAllStory()
+            ViewModelProvider(this, MainViewModelFactory(preferences, this))[MainViewModel::class.java]
 
-        mainLoading = binding.mainLoading
-
-        mainViewModel.listStory.observe(this) {
-            showList(it)
-        }
-
-        mainViewModel.message.observe(this) {
-            if (it == "Failure") {
-                Toast.makeText(this, R.string.api_failure, Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
-            }
-        }
-
-        mainViewModel.isLoading.observe(this) {
-            if (it) {
-                mainLoading.visibility = View.VISIBLE
-                mainLoading.playAnimation()
-            } else {
-                mainLoading.visibility = View.INVISIBLE
-                mainLoading.cancelAnimation()
-            }
-        }
+        showList()
+//        mainViewModel.getAllStory(100, 0)
+//
+//        mainLoading = binding.mainLoading
+//
+//        mainViewModel.listStory.observe(this) {
+//            showList(it)
+//        }
+//
+//        mainViewModel.message.observe(this) {
+//            if (it == "Failure") {
+//                Toast.makeText(this, R.string.api_failure, Toast.LENGTH_SHORT).show()
+//            } else {
+//                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+//            }
+//        }
+//
+//        mainViewModel.isLoading.observe(this) {
+//            if (it) {
+//                mainLoading.visibility = View.VISIBLE
+//                mainLoading.playAnimation()
+//            } else {
+//                mainLoading.visibility = View.INVISIBLE
+//                mainLoading.cancelAnimation()
+//            }
+//        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -82,6 +88,11 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intentToAddPhoto)
                 true
             }
+            R.id.maps -> {
+                val intentToMaps = Intent(this@MainActivity, MapsActivity::class.java)
+                startActivity(intentToMaps)
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -96,13 +107,18 @@ class MainActivity : AppCompatActivity() {
         startActivity(intentToMain)
     }
 
-    private fun showList(items: List<ListStoryItem>) {
-        binding.rvStory.layoutManager = StaggeredGridLayoutManager(
-            2,
-            StaggeredGridLayoutManager.VERTICAL
-        ) // 2 columns and vertical orientation
-        val adapter = StoryAdapter(items)
-        binding.rvStory.adapter = adapter
+    private fun showList() {
+        binding.rvStory.layoutManager = LinearLayoutManager(this)
+        val adapter = DataAdapter()
+        binding.rvStory.adapter = adapter.withLoadStateFooter(
+            footer = LoadingStateAdapter {
+                adapter.retry()
+            }
+        )
+        mainViewModel.stories.observe(this) {
+            adapter.submitData(lifecycle, it)
+            Log.e(TAG, it.toString())
+        }
     }
 
 //    private fun showSelectedData(data : ListStoryItem){

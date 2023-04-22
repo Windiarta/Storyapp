@@ -1,5 +1,6 @@
 package com.example.storyapp.API
 
+import com.example.storyapp.Model.ListStoryItem
 import com.example.storyapp.Model.LoginResponse
 import com.example.storyapp.Model.RegisterResponse
 import com.example.storyapp.Model.StoryResponse
@@ -34,4 +35,13 @@ interface ApiService {
         @Query("size") size: Int,
         @Query("location") location: Int
     ): Call<StoryResponse>
+
+    @GET("/v1/stories")
+    suspend fun getStories(
+        @Header("Authorization") token: String,
+        @Query("page") page: Int,
+        @Query("size") size: Int,
+        @Query("location") location: Int
+    ): Call<StoryResponse>
+
 }
