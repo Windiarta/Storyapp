@@ -8,17 +8,11 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.airbnb.lottie.LottieAnimationView
 import com.example.storyapp.LoginRegister.LoginActivity
-import com.example.storyapp.MapsActivity
-import com.example.storyapp.Model.ListStoryItem
-import com.example.storyapp.PageViewModel
 import com.example.storyapp.Photo.AddPhotoActivity
 import com.example.storyapp.R
 import com.example.storyapp.databinding.ActivityMainBinding

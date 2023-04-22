@@ -1,4 +1,4 @@
-package com.example.storyapp
+package com.example.storyapp.Main
 
 import android.content.Context
 import android.content.SharedPreferences

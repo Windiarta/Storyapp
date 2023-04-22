@@ -11,7 +11,6 @@ import androidx.paging.cachedIn
 import com.example.storyapp.API.ApiConfig
 import com.example.storyapp.Model.ListStoryItem
 import com.example.storyapp.Model.StoryResponse
-import com.example.storyapp.StoryRepository
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

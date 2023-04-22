@@ -1,4 +1,4 @@
-package com.example.storyapp
+package com.example.storyapp.Main
 
 import android.Manifest
 import android.content.Context
@@ -20,8 +20,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.lifecycle.ViewModelProvider
-import com.example.storyapp.Main.MainViewModel
-import com.example.storyapp.Main.MainViewModelFactory
+import com.example.storyapp.R
 import com.example.storyapp.databinding.ActivityMapsBinding
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -173,7 +172,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mainViewModel.listStory.observe(this){
             it.forEach {item ->
                 val latLng = LatLng(item.lat, item.lon)
-                mMap.addMarker(MarkerOptions().position(latLng).title(item.name).icon(vectorToBitmap(R.drawable.camera_pin, Color.parseColor("#3DDC84"))))
+                mMap.addMarker(MarkerOptions().position(latLng).title(item.name).icon(vectorToBitmap(
+                    R.drawable.camera_pin, Color.parseColor("#3DDC84"))))
             }
         }
     }

@@ -1,4 +1,4 @@
-package com.example.storyapp
+package com.example.storyapp.Main
 
 import android.util.Log
 import androidx.paging.PagingSource
@@ -27,7 +27,7 @@ class StoryPagingSource(private val apiService: ApiService, private val token: S
         return try {
             val page = params.key ?: INITIAL_PAGE_INDEX
             val responseData = withContext(Dispatchers.IO) {
-                apiService.getStories(token, page, params.loadSize, location).execute().body()?.listStory
+                apiService.stories("Bearer $token", page, params.loadSize, location).execute().body()?.listStory
             }
             LoadResult.Page(
                 data = responseData ?: emptyList(),

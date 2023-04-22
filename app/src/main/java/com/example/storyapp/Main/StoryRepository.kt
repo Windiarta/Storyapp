@@ -1,6 +1,5 @@
-package com.example.storyapp
+package com.example.storyapp.Main
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
