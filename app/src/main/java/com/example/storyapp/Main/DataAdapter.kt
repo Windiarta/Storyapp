@@ -2,7 +2,6 @@ package com.example.storyapp.Main
 
 import android.app.Activity
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.app.ActivityOptionsCompat
@@ -16,7 +15,7 @@ import com.example.storyapp.databinding.StoryViewBinding
 
 class DataAdapter: PagingDataAdapter<ListStoryItem, DataAdapter.MyViewHolder>(DIFF_CALLBACK){
     companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ListStoryItem>() {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ListStoryItem>() {
             override fun areItemsTheSame(oldItem: ListStoryItem, newItem: ListStoryItem): Boolean {
                 return oldItem == newItem
             }
@@ -26,10 +25,10 @@ class DataAdapter: PagingDataAdapter<ListStoryItem, DataAdapter.MyViewHolder>(DI
             }
         }
     }
+
     class MyViewHolder(private val binding: StoryViewBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: ListStoryItem) {
-            Log.e("HERE", "HERE")
             Glide.with(binding.root)
                 .load(data.photoUrl)
                 .into(binding.storyImageView)

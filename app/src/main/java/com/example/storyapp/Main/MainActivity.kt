@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -33,36 +34,22 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        mainLoading = binding.mainLoading
+
         preferences = getSharedPreferences("loginPref", Context.MODE_PRIVATE)
-        mainViewModel =
-            ViewModelProvider(this, MainViewModelFactory(preferences, this))[MainViewModel::class.java]
+        mainViewModel = ViewModelProvider(this, MainViewModelFactory(preferences, this))[MainViewModel::class.java]
 
         showList()
-//        mainViewModel.getAllStory(100, 0)
-//
-//        mainLoading = binding.mainLoading
-//
-//        mainViewModel.listStory.observe(this) {
-//            showList(it)
-//        }
-//
-//        mainViewModel.message.observe(this) {
-//            if (it == "Failure") {
-//                Toast.makeText(this, R.string.api_failure, Toast.LENGTH_SHORT).show()
-//            } else {
-//                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
-//            }
-//        }
-//
-//        mainViewModel.isLoading.observe(this) {
-//            if (it) {
-//                mainLoading.visibility = View.VISIBLE
-//                mainLoading.playAnimation()
-//            } else {
-//                mainLoading.visibility = View.INVISIBLE
-//                mainLoading.cancelAnimation()
-//            }
-//        }
+
+        mainViewModel.isLoading.observe(this){
+            if(it){
+                mainLoading.visibility = View.VISIBLE
+                mainLoading.playAnimation()
+            } else {
+                mainLoading.visibility = View.INVISIBLE
+                mainLoading.cancelAnimation()
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -114,11 +101,4 @@ class MainActivity : AppCompatActivity() {
             Log.e(TAG, it.toString())
         }
     }
-
-//    private fun showSelectedData(data : ListStoryItem){
-//        val intentToDetail = Intent(this@MainActivity, StoryDetailActivity::class.java)
-//        intentToDetail.putExtra("StoryID", data.id)
-//        startActivity(intentToDetail)
-//    }
-
 }

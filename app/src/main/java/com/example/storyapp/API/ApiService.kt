@@ -35,13 +35,4 @@ interface ApiService {
         @Query("size") size: Int,
         @Query("location") location: Int
     ): Call<StoryResponse>
-
-    @GET("/v1/stories")
-    suspend fun getStories(
-        @Header("Authorization") token: String,
-        @Query("page") page: Int,
-        @Query("size") size: Int,
-        @Query("location") location: Int
-    ): Call<StoryResponse>
-
 }

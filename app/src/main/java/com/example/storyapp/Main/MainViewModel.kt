@@ -15,18 +15,14 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MainViewModel(private val preferences: SharedPreferences, storyRepository: StoryRepository) : ViewModel() {
+class MainViewModel(private val preferences: SharedPreferences, private val storyRepository: StoryRepository) : ViewModel() {
     companion object {
         private const val TAG = "MainViewModel"
         private const val TOKEN = "token"
     }
 
-    private var token: String = preferences.getString(TOKEN, null).toString()
-    val stories : LiveData<PagingData<ListStoryItem>>
-    init{
-        stories = storyRepository.getStories(token, 0).cachedIn(viewModelScope)
-        Log.e(TAG, stories.value.toString())
-    }
+    private val token : String = preferences.getString(TOKEN, null).toString()
+    val stories : LiveData<PagingData<ListStoryItem>> = storyRepository.getStories(token, 0)?.cachedIn(viewModelScope) ?: MutableLiveData(PagingData.empty())
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
@@ -35,6 +31,9 @@ class MainViewModel(private val preferences: SharedPreferences, storyRepository:
     private val _message = MutableLiveData<String>()
     val message: LiveData<String> = _message
 
+    init{
+        _listStory.value = emptyList()
+    }
 
     fun getAllStory(size: Int, location: Int) {
         _isLoading.value = true

@@ -43,6 +43,4 @@ class StoryPagingSource(private val apiService: ApiService, private val token: S
             return LoadResult.Error(exception)
         }
     }
-
-
 }
