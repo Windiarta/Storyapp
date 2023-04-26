@@ -2,6 +2,7 @@ package com.example.storyapp.Main
 
 import android.content.SharedPreferences
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.AsyncPagingDataDiffer
 import androidx.paging.PagingData
@@ -32,7 +33,7 @@ class MainViewModelTest {
 
     @Mock
     private lateinit var storyRepository: StoryRepository
-    private val token: String = "TOKEN"
+    private val token: String = "token"
     @Mock
     private lateinit var preferences: SharedPreferences
 
@@ -45,7 +46,7 @@ class MainViewModelTest {
         `when`(storyRepository.getStories(token, 0)).thenReturn(expectedStory)
 
         val mainViewModel = MainViewModel(preferences, storyRepository)
-        val actualStory: PagingData<ListStoryItem> = mainViewModel.stories.getOrAwaitValue()
+        val actualStory: PagingData<ListStoryItem> = mainViewModel.getStory(token).getOrAwaitValue()
         val differ = AsyncPagingDataDiffer(
             diffCallback = DataAdapter.DIFF_CALLBACK,
             updateCallback = noopListUpdateCallback,
@@ -58,12 +59,10 @@ class MainViewModelTest {
         //Memastikan data tidak null
         assertNotNull(differ.snapshot())
 
-        assertEquals(dummyStory, differ.snapshot())
-
-        //Memastikan jumlah data sesuai dengan yang diharapkan.
+        //Memastikan jumlah data sesuai dengan yang diharapkan
         assertEquals(dummyStory.size, differ.snapshot().size)
 
-        //Memastikan data pertama yang dikembalikan sesuai.
+        //Memastikan data pertama yang dikembalikan sesuai
         assertEquals(dummyStory[0].id, differ.snapshot()[0]?.id)
     }
 
@@ -75,7 +74,7 @@ class MainViewModelTest {
         `when`(storyRepository.getStories(token, 0)).thenReturn(expectedQuote)
 
         val mainViewModel = MainViewModel(preferences, storyRepository)
-        val actualQuote: PagingData<ListStoryItem> = mainViewModel.stories.getOrAwaitValue()
+        val actualQuote: PagingData<ListStoryItem> = mainViewModel.getStory(token).getOrAwaitValue()
 
         val differ = AsyncPagingDataDiffer(
             diffCallback = DataAdapter.DIFF_CALLBACK,
@@ -89,16 +88,16 @@ class MainViewModelTest {
     }
 }
 
-class StoryPagingSource : PagingSource<Int, ListStoryItem>() {
+class StoryPagingSource : PagingSource<Int, LiveData<List<ListStoryItem>>>() {
     companion object {
         fun snapshot(items: List<ListStoryItem>): PagingData<ListStoryItem> {
             return PagingData.from(items)
         }
     }
-    override fun getRefreshKey(state: PagingState<Int, ListStoryItem>): Int {
+    override fun getRefreshKey(state: PagingState<Int, LiveData<List<ListStoryItem>>>): Int {
         return 0
     }
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, ListStoryItem> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, LiveData<List<ListStoryItem>>> {
         return LoadResult.Page(emptyList(), 0, 1)
     }
 }

@@ -22,7 +22,7 @@ class MainViewModel(private val preferences: SharedPreferences, private val stor
     }
 
     private val token : String = preferences.getString(TOKEN, null).toString()
-    val stories : LiveData<PagingData<ListStoryItem>> = storyRepository.getStories(token, 0)?.cachedIn(viewModelScope) ?: MutableLiveData(PagingData.empty())
+    var stories : LiveData<PagingData<ListStoryItem>>
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
@@ -33,6 +33,11 @@ class MainViewModel(private val preferences: SharedPreferences, private val stor
 
     init{
         _listStory.value = emptyList()
+        stories = getStory(token)
+    }
+
+    fun getStory(token: String): LiveData<PagingData<ListStoryItem>>{
+        return storyRepository.getStories(token, 0)?.cachedIn(viewModelScope) ?: MutableLiveData(PagingData.empty())
     }
 
     fun getAllStory(size: Int, location: Int) {
