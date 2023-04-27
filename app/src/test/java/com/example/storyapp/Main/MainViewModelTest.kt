@@ -63,7 +63,7 @@ class MainViewModelTest {
         assertEquals(dummyStory.size, differ.snapshot().size)
 
         //Memastikan data pertama yang dikembalikan sesuai
-        assertEquals(dummyStory[0].id, differ.snapshot()[0]?.id)
+        assertEquals(dummyStory[0], differ.snapshot()[0])
     }
 
     @Test
